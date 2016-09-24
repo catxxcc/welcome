@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"> 
+	<title>Welcome to our wedding</title> 
+	<!--
+	<link rel="stylesheet" href="jqmobile/jquery.mobile-1.4.5.css">  
+	<script src="jqmobile/jquery-1.11.1.js"></script>  
+	<script src="jqmobile/jquery.mobile-1.4.5.js"></script> 
+	--> 
+	<style type="text/css">
+	html,body{
+		height: 100%;
+		margin: 0px;
+		padding: 0px;
+		font-family: "微软雅黑";
+	}
+	.container{
+		width: 100%;
+		max-width: 720px;
+		background: #ffffff;
+		font-size: 1em;
+		height: 100%;
+		position: relative;
+		margin: 0px auto;
+		
+	}
+	audio{
+		position: absolute;
+		top: -200px;
+	}
+	.foot{
+		position: absolute;
+		bottom: 0px;
+	}
+	.wrap{
+		padding: 0 2em;
+		border: solid 1px #ffffff;
+	}
+	.num1{
+		width: 100%;
+		position: relative;
+	}
+	.num1 p{
+		color: #666666;
+		margin: 0.5em 0;
+	}
+	.num1 figure{
+		width: 100%;
+		margin: 0px;
+		padding: 0px;
+		
+	}
+	.num1 figure img{
+		width: 100%;
+		z-index: 1;
+	}
+	.num1 .name{
+		width: 4em;
+		height: 4em;
+		border-radius: 4em;
+		background-color: #ffa042;
+		text-align: center;
+		font-size: 1.1em;
+		padding: 1em;
+		color: #ffffff;
+		position: absolute;
+		bottom: -5em;
+	}
+	.num1 .text{
+		position: absolute;
+		right: 0px;
+	}
+	
+	</style>
+</head>
+<body>
+	<div class="container">
+		<audio src="1.wav" controls="controls">
+			Your browser does not support the audio element.
+		</audio>
+
+		<div class="wrap" id="slider">
+			<div class="num num1">
+				<p>HAPPY WEDDING</p>
+				<figure>
+					<img src="img/001.jpg" >
+				</figure>
+				<div class="name">
+					<span>彭靖轩</span><br>
+					<span>&</span><br>
+					<span>刘称称</span>
+				</div>
+				<div class="text">
+					<p>
+						2016.10.06 11时30分<br>
+						农历：九月初六（周四）<br>
+						河南洛阳好来登大酒店
+					</p>
+				</div>
+			</div>
+			<div class="num"></div>
+			<div class="num"></div>
+			<div class="num"></div>
+			<div class="num"></div>
+		</div>
+
+		
+	</div>
+	<script type="text/javascript">
+		var objArray = {};
+		function init(){
+			objArray.img1 = document.getElementById("img1");
+			objArray.text1 = document.getElementById("text1");
+		}
+		function scrollEvent(){
+			var scrollTop = window.scrollY;
+				
+		}
+		window.onload = function(){
+			init();
+			window.addEventListener('scroll', scrollEvent);
+		}
+
+		var wrapslider = {
+			//判断设备是否支持touch事件
+			touch: ('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch,
+
+			slider = document.getElementById("slider"),
+
+			//事件
+			events: {
+				slider = this.slider,
+				handleEvent: function(event){
+					var self = this;
+					if(event.type == "touchstart"){
+						self.start(event);
+					}else if(event.type == "touchmove"){
+						self.move(event);
+					}else if(event.type == "touchend"){
+						self.end(event);
+					}
+				},
+				//滑动开始
+				start: function(event){
+					var touch = event.targetTouches[0];
+					startPos = {
+						x: touch.pageX,
+						y: touch.pageY,
+						time: +new Date
+						};
+					isScrolling = 0;
+					this.slider.addEventListener("touchmove", this, false);
+					this.slider.addEventListener("touchend", this, false);
+				}
+				//移动
+				move: function(event){
+					if(event.targetTouches.length > 1 || event.scale && event.scale !== 1) return;
+					var touch = event.targetTouches[0];
+					endPos = {
+						x: touch.pageX - startPos.x,
+						y: touch.pageY - startPos.y
+					}
+					//0为横向滑动，1为纵向滑动
+					isScrolling = Math.abs(endPos.x) < Math.abs(endPos.y) ? 1 : 0;
+					if(isScrolling === 0){
+						event.preventDefault();
+
+					}
+
+				},
+				//滑动释放
+				end: function(event){
+					var duration = +new Date - startPos.time;
+					if(isScrolling === 0){
+
+					}
+					//解绑事件
+					this.slider.removeEventListener("touchmove",this,false);
+					this.slider.removeEventListener("touchend", this, false);
+				}
+			}
+		}
+	</script>
+</body>
+</html>
